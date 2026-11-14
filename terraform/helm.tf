@@ -7,3 +7,20 @@ resource "helm_release" "nginx_ingress" {
 
   values = [file("${path.module}/../helm/nginx-ingress.yaml")]
 }
+
+resource "helm_release" "cert_manager" {
+  name             = "cert-manager"
+  repository       = "https://charts.jetstack.io"
+  chart            = "cert-manager"
+  namespace        = "cert-manager"
+  create_namespace = true
+
+  values = [file("${path.module}/../helm/cert-manager.yaml")]
+
+  set = [
+    {
+      name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+      value = module.cert_manager_irsa.arn
+    }
+  ]
+}
