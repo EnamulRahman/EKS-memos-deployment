@@ -1,0 +1,8 @@
+controller:
+  ingressClass:
+    name: nginx
+    setAsDefaultIngress: true
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
