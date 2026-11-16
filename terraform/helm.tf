@@ -4,6 +4,7 @@ resource "helm_release" "nginx_ingress" {
   chart            = "nginx-ingress"
   namespace        = "nginx-ingress"
   create_namespace = true
+  depends_on = [module.eks]
 
   values = [file("${path.module}/../helm/nginx-ingress.yaml")]
 }
@@ -14,7 +15,8 @@ resource "helm_release" "cert_manager" {
   chart            = "cert-manager"
   namespace        = "cert-manager"
   create_namespace = true
-
+  depends_on = [module.eks]
+  
   values = [file("${path.module}/../helm/cert-manager.yaml")]
 
   set = [
@@ -31,7 +33,7 @@ resource "helm_release" "external_dns" {
   chart            = "external-dns"
   namespace        = "external-dns"
   create_namespace = true
-
+  depends_on = [module.eks]
   values = [file("${path.module}/../helm/external-dns.yaml")]
 
   set = [
