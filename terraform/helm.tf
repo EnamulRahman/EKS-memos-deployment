@@ -33,8 +33,8 @@ resource "helm_release" "external_dns" {
   chart            = "external-dns"
   namespace        = "external-dns"
   create_namespace = true
-  depends_on = [module.eks]
-  values = [file("${path.module}/../helm/external-dns.yaml")]
+  depends_on       = [module.eks]
+  values           = [file("${path.module}/../helm/external-dns.yaml")]
 
   set = [
     {
@@ -42,4 +42,15 @@ resource "helm_release" "external_dns" {
       value = module.external_dns_irsa.arn
     }
   ]
+}
+
+resource "helm_release" "argocd" {
+  name             = "argocd"
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  create_namespace = true
+  depends_on       = [module.eks]
+
+  values = [file("${path.module}/../helm/argocd.yaml")]
 }
