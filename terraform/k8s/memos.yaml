@@ -18,9 +18,13 @@ spec:
       labels:
         app: memos
     spec:
+      enableServiceLinks: false    # ◄ stop the automatic MEMOS_PORT variable
       containers:
         - name: memos
           image: neosmemo/memos:stable
+          env:                     
+            - name: MEMOS_PORT
+              value: "5230"
           ports:
             - containerPort: 5230
           resources:
