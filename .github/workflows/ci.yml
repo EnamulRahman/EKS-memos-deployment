@@ -13,14 +13,25 @@ jobs:
         working-directory: terraform
     steps:
       - uses: actions/checkout@v4
-
       - uses: hashicorp/setup-terraform@v3
-
       - name: Terraform fmt
         run: terraform fmt -check -recursive
-
       - name: Terraform init
         run: terraform init -backend=false
-
       - name: Terraform validate
         run: terraform validate
+
+  checkov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Checkov
+        run: pip install checkov
+      - name: Scan Terraform and Kubernetes YAML
+        run: checkov -d terraform -d k8s --soft-fail
+
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scan Memos image
+        run: docker run --rm aquasec/trivy:latest image --severity HIGH,CRITICAL neosmemo/memos:stable
