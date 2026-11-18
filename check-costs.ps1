@@ -1,0 +1,6 @@
+"EKS:      " + (aws eks list-clusters --region eu-west-2 --query "clusters" --output text)
+"EC2:      " + (aws ec2 describe-instances --region eu-west-2 --filters "Name=instance-state-name,Values=running,pending" --query "Reservations[].Instances[].InstanceId" --output text)
+"NAT:      " + (aws ec2 describe-nat-gateways --region eu-west-2 --filter "Name=state,Values=available,pending" --query "NatGateways[].NatGatewayId" --output text)
+"LBs:      " + (aws elbv2 describe-load-balancers --region eu-west-2 --query "LoadBalancers[].LoadBalancerName" --output text)
+"EIPs:     " + (aws ec2 describe-addresses --region eu-west-2 --query "Addresses[].PublicIp" --output text)
+"Volumes:  " + (aws ec2 describe-volumes --region eu-west-2 --query "Volumes[].VolumeId" --output text)

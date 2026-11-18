@@ -12,7 +12,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: memos
+      app: memosl
   template:
     metadata:
       labels:
@@ -22,7 +22,7 @@ spec:
       containers:
         - name: memos
           image: neosmemo/memos:stable
-          env:                     
+          env:
             - name: MEMOS_PORT
               value: "5230"
           ports:
